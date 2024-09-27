@@ -10,6 +10,7 @@ using namespace std;
 
 
 #pragma comment(lib,"ws2_32.lib")
+
 int main()
 {
 
@@ -61,6 +62,30 @@ int main()
 	while (true)
 	{
 		//TODO 
+		char sendBuffer[100] = "Hello World!";
+
+		int32_t resultCode = ::send(clientSocket, sendBuffer, sizeof(sendBuffer), 0);
+		if (resultCode == SOCKET_ERROR)
+		{
+			int32_t errCode = ::WSAGetLastError();
+			cout << "message send failed 메세지 전송 실패" << endl;
+			cout << "Socket ErrorCode : " << errCode << endl;
+			return 0;
+		}
+		cout << "Send Data! Len = " << sizeof(sendBuffer) << endl;
+
+		char recvBuffer[1000];
+		int32_t  recvLen = ::recv(clientSocket, recvBuffer, sizeof(recvBuffer), 0);
+		if (recvLen <= 0)
+		{
+			int32_t errCode = ::WSAGetLastError();
+			cout << "message recv failed 메세지 전송 실패" << endl;
+			cout << "Socket ErrorCode : " << errCode << endl;
+			return 0;
+		}
+		cout << "Recv Dadta! Len = " << recvBuffer << endl;
+		cout << "Recv Dadta! Len = " << recvLen << endl;
+
 		this_thread::sleep_for(1s);
 	}
 
@@ -70,3 +95,4 @@ int main()
 	//윈속 종료
 	::WSACleanup();
 }
+

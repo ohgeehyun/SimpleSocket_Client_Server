@@ -87,6 +87,31 @@ int main()
 		char ipAddress[16];
 		inet_ntop(AF_INET, &clientAddr.sin_addr, ipAddress, sizeof(ipAddress));
 		cout << "Client Connect.... Client ip : [" << ipAddress << "]" << endl;
+
+		//TODO
+		while (true)
+		{
+			char recvBuffer[1000];
+			int32_t  recvLen = ::recv(clientSocket, recvBuffer, sizeof(recvBuffer), 0);
+			if (recvLen <= 0)
+			{
+				int32_t errCode = ::WSAGetLastError();
+				cout << "message recv failed 메세지 전송 실패" << endl;
+				cout << "Socket ErrorCode : " << errCode << endl;
+				return 0;
+			}
+			cout << "Recv Dadta! Len = " << recvBuffer << endl;
+			cout << "Recv Dadta! Len = " << recvLen << endl;
+
+			/*int32_t resultCode = ::send(clientSocket, recvBuffer, recvLen, 0);
+			if (resultCode == SOCKET_ERROR)
+			{
+				int32_t errCode = ::WSAGetLastError();
+				cout << "message send failed 메세지 전송 실패" << endl;
+				cout << "Socket ErrorCode : " << errCode << endl;
+				return 0;
+			}*/
+		}
 	}
 
 
